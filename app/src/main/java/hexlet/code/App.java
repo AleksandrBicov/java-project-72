@@ -5,6 +5,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import hexlet.code.Controller.Controller;
 import hexlet.code.repository.BaseRepository;
+import hexlet.code.util.NamedRoutes;
+import static hexlet.code.config.TemplateEngineConfig.createTemplateEngine;
 
 import io.javalin.Javalin;
 
@@ -17,7 +19,8 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-import static hexlet.code.config.TemplateEngineConfig.createTemplateEngine;
+
+
 
 @Slf4j
 public class App {
@@ -48,11 +51,13 @@ public class App {
         BaseRepository.dataSource = dataSource;
 
         var app = Javalin.create(config -> {
+
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
-        app.get("/", Controller::index);
+        app.get(NamedRoutes.rootPath(),Controller::index);
+        app.post(NamedRoutes.urlsPost(),Controller::urlsPost);
 
         return app;
     }

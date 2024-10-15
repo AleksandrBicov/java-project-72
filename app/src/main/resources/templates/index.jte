@@ -1,5 +1,40 @@
 @template.layout.page(
     content = @`
-        <h2>Welcome to My sait</h2>
-    `
-)
+        <main class="flex-grow-1">
+            <section>
+                <div class="container-fluid bg-dark p-5">
+                    <div class="row">
+                        <div class="col-md-10 col-lg-8 mx-auto text-white">
+                            <h1 class="display-3 mb-0">Анализатор страниц</h1>
+                                <p class="lead">Бесплатно проверяйте сайты на SEO пригодность</p>
+                                    <form action="/urls" method="post" class="rss-form text-body">
+                                        <div class="row">
+                                            <div class="col">
+                                               <div class="form-floating">
+                                                <input id="url-input" autofocus="" type="text" required="" name="url" aria-label="url" class="form-control w-100" placeholder="ссылка" autocomplete="off">
+                                                    <label for="url-input">Ссылка</label>
+                                                </div>
+                                            </div>
+                                        <div class="col-auto">
+                                <button type="submit" class="h-100 btn btn-lg btn-primary px-sm-5">Проверить</button>
+                                </div>
+                                </div>
+                                </form>
+                            <p class="mt-2 mb-0 text-muted">Пример: https://www.example.com</p>
+                            </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                <footer class="footer border-top py-3 mt-5 bg-light">
+                    <div class="container-xl">
+                        <div class="text-center">
+                            created by
+                            <a href="ССЫЛКА_НА_HEXLET" target="_blank">Hexlet</a> <!-- ССЫЛКА -->
+                        </div>
+                    </div>
+                </footer>
+            `
+        )
+
