@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import hexlet.code.Controller.Controller;
+import hexlet.code.model.Url;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.util.NamedRoutes;
 import static hexlet.code.config.TemplateEngineConfig.createTemplateEngine;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
@@ -44,16 +46,24 @@ public class App {
                 .lines().collect(Collectors.joining("\n"));
 
         log.info(sql);
+
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {
             statement.execute(sql);
         }
+
         BaseRepository.dataSource = dataSource;
 
         var app = Javalin.create(config -> {
-
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
+//            config.validation.register(URI.class, value -> {
+//                try {
+//                    return new URI(value);
+//                } catch (Exception e) {
+//                    throw new RuntimeException();
+//                }
+//            });
         });
 
         app.get(NamedRoutes.rootPath(),Controller::index);
