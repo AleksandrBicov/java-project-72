@@ -16,5 +16,4 @@ public class BuildUrlPage {
     private String name;
     private LocalDateTime createdAt;
     private Exception errors;
-
 }

@@ -1,5 +1,16 @@
+@import hexlet.code.dto.url.BuildUrlPage
+@param BuildUrlPage page
+
 @template.layout.page(
     content = @`
+
+    @if(page.getErrors() != null)
+        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-danger" role="alert">
+            <p class="m-0">Некорректный URL</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
         <main class="flex-grow-1">
             <section>
                 <div class="container-fluid bg-dark p-5">
@@ -26,15 +37,6 @@
                         </div>
                     </section>
                 </main>
-
-                <footer class="footer border-top py-3 mt-5 bg-light">
-                    <div class="container-xl">
-                        <div class="text-center">
-                            created by
-                            <a href="ССЫЛКА_НА_HEXLET" target="_blank">Hexlet</a> <!-- ССЫЛКА -->
-                        </div>
-                    </div>
-                </footer>
             `
         )
 

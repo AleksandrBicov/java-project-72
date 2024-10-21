@@ -16,21 +16,29 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="ССЫЛКА_НА_ГЛАВНУЮ_СТРАНИЦУ">Анализатор страниц</a> <!-- ССЫЛКА -->
+                <a class="navbar-brand" href="/">Анализатор страниц</a> <!-- ССЫЛКА -->
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="navbar-nav">
-                    <a class="nav-link" href="ССЫЛКА_НА_ГЛАВНУЮ_СТРАНИЦУ">Главная</a> <!-- ССЫЛКА -->
-                    <a class="nav-link" href="ССЫЛКА_НА_СТРАНИЦУ_САЙТОВ">Сайты</a> <!-- ССЫЛКА -->
+                    <a class="nav-link" href="/">Главная</a> <!-- ССЫЛКА -->
+                    <a class="nav-link" href="/urls">Сайты</a> <!-- ССЫЛКА -->
                     </div>
                 </div>
             </div>
         </nav>
-        <div class="mx-auto p-4 py-md-5">
-            ${content}
+
+    ${content}
+
+    <footer class="footer border-top py-3 mt-5 bg-light">
+        <div class="container-xl">
+            <div class="text-center">
+                created by
+                <a href="https://github.com/AleksandrBicov/" target="_blank">AleksandrBicov</a>
+            </div>
         </div>
+    </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
             integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"
