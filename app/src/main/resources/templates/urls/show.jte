@@ -1,7 +1,7 @@
 @import hexlet.code.dto.url.UrlPage
 @import hexlet.code.dto.url.UrlCheckPage
 @param UrlPage page
-@param UrlCheckPage check
+@param UrlCheckPage checkUrl
 @template.layout.page(
     content = @`
     <main class="flex-grow-1">
@@ -45,7 +45,7 @@
             </thead>
             <tbody>
             @if(check.getUrlCheck() != null)
-                @for (check : check.getUrlCheck())
+                @for (check : checkUrl.getUrlCheck())
                     <tr>
                         <td>${check.getId()}</td>
                         <td>${check.getStatusCode()}</td>
