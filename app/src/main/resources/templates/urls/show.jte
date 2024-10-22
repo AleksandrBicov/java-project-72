@@ -44,18 +44,7 @@
                 <th class="col-2">Дата проверки</th>
             </thead>
             <tbody>
-            @if(check.getUrlCheck() != null)
-                @for (check : checkUrl.getUrlCheck())
-                    <tr>
-                        <td>${check.getId()}</td>
-                        <td>${check.getStatusCode()}</td>
-                        <td>${check.getTitle()}</td>
-                        <td>${check.getH1()}</td>
-                        <td>${check.getDescription()}</td>
-                        <td>${check.getFormattedCreatedAt()}</td>
-                    </tr>
-                @endfor
-            @endif
+
             </tbody>
         </table>
         </section>

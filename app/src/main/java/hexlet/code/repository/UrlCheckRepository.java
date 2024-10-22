@@ -17,7 +17,7 @@ public class UrlCheckRepository extends BaseRepository {
             preparedStatement.setInt(2, checkUrl.getStatusCode());
             preparedStatement.setString(3, checkUrl.getH1());
             preparedStatement.setString(4, checkUrl.getTitle());
-            preparedStatement.setString(4, checkUrl.getDescription());
+            preparedStatement.setString(5, checkUrl.getDescription());
             preparedStatement.setTimestamp(6, Timestamp.valueOf(checkUrl.getCreatedAt()));
             preparedStatement.executeUpdate();
         }
