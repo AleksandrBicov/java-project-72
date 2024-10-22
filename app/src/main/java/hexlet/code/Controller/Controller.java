@@ -4,12 +4,19 @@ import hexlet.code.dto.url.BuildUrlPage;
 import hexlet.code.dto.url.UrlPage;
 import hexlet.code.dto.url.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.UrlsRepository;
 
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import lombok.extern.slf4j.Slf4j;
 
+import kong.unirest.Unirest;
+import kong.unirest.HttpResponse;
+import kong.unirest.UnirestException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.net.URI;
 import java.net.URL;
@@ -22,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+import static hexlet.code.repository.UrlCheckRepository.saveCheck;
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 
@@ -65,9 +73,49 @@ public class Controller {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var url = UrlsRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Url not found"));
-
         var page = new UrlPage(url);
         ctx.render("urls/show.jte", model("page", page));
+    }
+
+    public static void check(Context ctx) throws SQLException {
+
+        var urlId = ctx.pathParamAsClass("id", Long.class).get();
+
+        var url = UrlsRepository.find(urlId)
+                .orElseThrow(() -> new NotFoundResponse("Url not found"));
+
+        String check = url.getName();
+
+        try {
+            HttpResponse<String> response = Unirest.get(check).asString();
+
+            if (response.getStatus() == 200) {
+                String html = response.getBody();
+                Document doc = Jsoup.parse(html);
+
+                int status = response.getStatus();
+                String title = doc.title();
+                String h1 = null;
+                String description = null;
+                LocalDateTime createdAt = LocalDateTime.now();
+
+                Element h1Element = doc.selectFirst("h1");
+                if (h1Element != null) {
+                    h1 = h1Element.text();
+                }
+
+                Element metaDescriptionElement = doc.selectFirst("meta[name=description]");
+                if (metaDescriptionElement != null) {
+                    description = metaDescriptionElement.attr("content");
+                }
+            var checkUrl = new UrlCheck(urlId,status,title,h1,description,createdAt);
+            saveCheck(checkUrl);
+            }
+
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static String createUrlString(URL url) {

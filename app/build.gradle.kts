@@ -24,6 +24,9 @@ dependencies {
     implementation("com.h2database:h2:2.2.220")
     implementation("com.zaxxer:HikariCP:5.0.1")
 
+    implementation ("com.konghq:unirest-java:3.11.09")
+    implementation ("org.jsoup:jsoup:1.14.3")
+
     implementation("net.datafaker:datafaker:2.0.1")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
