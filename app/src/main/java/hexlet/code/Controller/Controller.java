@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static hexlet.code.repository.UrlCheckRepository.saveCheck;
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 
@@ -43,13 +42,22 @@ public class Controller {
         ctx.render("index.jte",Collections.singletonMap("page", page));
     }
 
-    public static void addUrl(Context ctx) {
+    public static void addUrl(Context ctx) throws SQLException {
         String inputUrl = Objects.requireNonNull(ctx.formParam("url")).trim();
+
+
         try {
             var uri = new URI(inputUrl);
             URL url = uri.toURL();
 
             String name = createUrlString(url);
+
+            if (UrlsRepository.find(name)) {
+                ctx.sessionAttribute("flash", "Страница уже существует");
+                ctx.redirect("/urls");
+                return;
+            }
+
             LocalDateTime createdAt = LocalDateTime.now();
 
             Url nameUrl = new Url(name, createdAt);
@@ -112,7 +120,7 @@ public class Controller {
                     description = metaDescriptionElement.attr("content");
                 }
             var checkUrl = new UrlCheck(urlId,status,title,h1,description,createdAt);
-            saveCheck(checkUrl);
+                UrlCheckRepository.saveCheck(checkUrl);
             ctx.sessionAttribute("flash", "Страница успешно проверена");
             }
         } catch (UnirestException e) {

@@ -1,21 +1,53 @@
 @import hexlet.code.dto.url.UrlsPage
+@import hexlet.code.dto.url.UrlPage
+@import hexlet.code.model.UrlCheck
+@import hexlet.code.utils.DateUtils
 @param UrlsPage page
+@param UrlPage сheckUrl
 
 @template.layout.page(
 page = page,
-    content = @`
-    <H1>Сайты</H1>
-       <table class="table table-striped">
+content = @`
+<main class="flex-grow-1">
+    <section>
+        <div class="container-lg mt-5">
+            <h1>Сайты</h1>
+            <table class="table table-bordered table-hover mt-3">
+                <thead>
+                <tr>
+                    <th class="col-1">ID</th>
+                    <th>Имя</th>
+                    <th class="col-2">Последняя проверка</th>
+                    <th class="col-1">Код ответа</th>
+                </tr>
+                </thead>
+                <tbody>
             @for(var url : page.getUrls())
                 <tr>
+                    <td>${url.getId()}</td>
+                    <td><a href="/urls/${url.getId()}" target="_blank">${url.getName()}</a></td>
                     <td>
-                        ${url.getId()}
+                        @if (сheckUrl != null )
+                        @for (UrlCheck check : сheckUrl.getUrlCheck())
+                        ${DateUtils.getFormattedCreatedAt(check.getCreatedAt())}
+                        @break
+                        @endfor
+                        @endif
                     </td>
                     <td>
-                        <a href="/urls/${url.getId()}" target="_blank">${url.getName()}</a>
+                        @if (сheckUrl != null)
+                        @for (UrlCheck check : сheckUrl.getUrlCheck())
+                        ${check.getStatusCode()}
+                        @break
+                        @endfor
+                        @endif
                     </td>
                 </tr>
             @endfor
-        </table>
-    `
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+`
 )
