@@ -1,8 +1,9 @@
 @import hexlet.code.dto.url.UrlPage
-@import hexlet.code.dto.url.UrlCheckPage
+@import hexlet.code.model.UrlCheck
+@import hexlet.code.utils.DateUtils
 @param UrlPage page
-@param UrlCheckPage checkUrl
 @template.layout.page(
+page = page,
     content = @`
     <main class="flex-grow-1">
         <section>
@@ -21,7 +22,7 @@
                         </tr>
                         <tr>
                             <td>Дата создания</td>
-                            <td>${page.getFormattedCreatedAt()}</td>
+                            <td>${DateUtils.getFormattedCreatedAt(page.getUrl().getCreatedAt())}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -44,8 +45,20 @@
                 <th class="col-2">Дата проверки</th>
             </thead>
             <tbody>
-
+            @if (page.getUrlCheck() != null)
+            @for (UrlCheck check : page.getUrlCheck())
+            <tr>
+                <td>${check.getId()}</td>
+                <td>${check.getStatusCode()}</td>
+                <td>${check.getTitle()}</td>
+                <td>${check.getH1()}</td>
+                <td>${check.getDescription()}</td>
+                <td>${DateUtils.getFormattedCreatedAt(check.getCreatedAt())}</td>
+            </tr>
+            @endfor
+            @endif
             </tbody>
+
         </table>
         </section>
     </main>

@@ -1,19 +1,18 @@
 package hexlet.code.dto.url;
 
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.format.DateTimeFormatter;
-
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class UrlPage {
+@Setter
+public class UrlPage extends BasePage {
     private Url url;
-
-    public String getFormattedCreatedAt() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return url.getCreatedAt().format(formatter);
-    }
+    private List<UrlCheck> urlCheck;
 }

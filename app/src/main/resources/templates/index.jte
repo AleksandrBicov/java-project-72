@@ -2,14 +2,8 @@
 @param BuildUrlPage page
 
 @template.layout.page(
+page = page,
     content = @`
-
-    @if(page.getErrors() != null)
-        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-danger" role="alert">
-            <p class="m-0">Некорректный URL</p>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
         <main class="flex-grow-1">
             <section>

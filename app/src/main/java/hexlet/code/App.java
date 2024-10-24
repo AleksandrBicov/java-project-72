@@ -5,7 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import hexlet.code.Controller.Controller;
 import hexlet.code.repository.BaseRepository;
-import hexlet.code.util.NamedRoutes;
+import hexlet.code.utils.NamedRoutes;
 import static hexlet.code.config.TemplateEngineConfig.createTemplateEngine;
 
 import io.javalin.Javalin;
@@ -58,8 +58,8 @@ public class App {
 
         app.get(NamedRoutes.rootPath(),Controller::index);
 
-        app.post(NamedRoutes.urlsPost(),Controller::urlsPost);
-        app.get(NamedRoutes.urlsGet(),Controller::urlsGet);
+        app.post(NamedRoutes.urlsPost(),Controller::addUrl);
+        app.get(NamedRoutes.urlsGet(),Controller::urlList);
 
         app.get(NamedRoutes.urlsPath("{id}"), Controller::show);
 

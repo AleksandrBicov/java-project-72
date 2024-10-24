@@ -2,8 +2,9 @@
 @param UrlsPage page
 
 @template.layout.page(
+page = page,
     content = @`
-    <H1>Адреса</H1>
+    <H1>Сайты</H1>
        <table class="table table-striped">
             @for(var url : page.getUrls())
                 <tr>
