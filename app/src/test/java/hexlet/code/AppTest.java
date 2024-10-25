@@ -114,7 +114,7 @@ public class AppTest {
     }
 
     @Test
-    public void mockWebServerTest() {
+    public void checkTest() {
         String  serverUrl = server.url("/").toString();
         JavalinTest.test(app, (server, client) -> {
             Url url = new Url(serverUrl,LocalDateTime.now());
