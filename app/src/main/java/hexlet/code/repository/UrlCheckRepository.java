@@ -9,7 +9,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UrlCheckRepository extends BaseRepository {
 
@@ -46,6 +48,28 @@ public class UrlCheckRepository extends BaseRepository {
                 checks.add(urlCheck);
             }
             return checks;
+        }
+    }
+
+    public static Map<Long,UrlCheck> findLatestChecks() throws SQLException {
+        var map = new HashMap<Long,UrlCheck>();
+        var sql = "SELECT * FROM url_checks";
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            var resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                long urlId = resultSet.getLong("urlId");
+                long checkId = resultSet.getLong("id");
+                int statusCode = resultSet.getInt("statusCode");
+                String h1 = resultSet.getString("h1");
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("description");
+                LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+                var urlCheck = new UrlCheck(urlId,statusCode,title,h1,description,createdAt);
+                urlCheck.setId(checkId);
+                map.put(urlId, urlCheck);
+            }
+            return map;
         }
     }
 }

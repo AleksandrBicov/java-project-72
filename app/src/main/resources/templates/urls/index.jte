@@ -27,19 +27,13 @@ content = @`
                     <td>${url.getId()}</td>
                     <td><a href="/urls/${url.getId()}" target="_blank">${url.getName()}</a></td>
                     <td>
-                        @if (сheckUrl != null )
-                        @for (UrlCheck check : сheckUrl.getUrlCheck())
-                        ${DateUtils.getFormattedCreatedAt(check.getCreatedAt())}
-                        @break
-                        @endfor
+                        @if(page.getUrlChecks().containsKey(url.getId()))
+                        ${DateUtils.getFormattedCreatedAt(page.getUrlChecks().get(url.getId()).getCreatedAt())}
                         @endif
                     </td>
                     <td>
-                        @if (сheckUrl != null)
-                        @for (UrlCheck check : сheckUrl.getUrlCheck())
-                        ${check.getStatusCode()}
-                        @break
-                        @endfor
+                        @if(page.getUrlChecks().containsKey(url.getId()))
+                        ${page.getUrlChecks().get(url.getId()).getStatusCode()}
                         @endif
                     </td>
                 </tr>

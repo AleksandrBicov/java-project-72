@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
@@ -73,9 +74,10 @@ public class Controller {
 
     public static void urlList(Context ctx) throws SQLException {
         List<Url> urls = UrlsRepository.getEntities();
-        var page = new UrlsPage(urls);
+        Map<Long, UrlCheck> urlChecks = UrlCheckRepository.findLatestChecks();
+        var page = new UrlsPage(urls, urlChecks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
-        ctx.render("urls/index.jte", Collections.singletonMap("page", page));
+        ctx.render("urls/index.jte", model("page", page));
     }
 
     public static void show(Context ctx) throws SQLException {
