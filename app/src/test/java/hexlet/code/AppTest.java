@@ -115,14 +115,15 @@ public class AppTest {
 
     @Test
     public void checkTest() {
-        String  serverUrl = server.url("/").toString();
+        String serverUrl = server.url("/").toString();
         JavalinTest.test(app, (server, client) -> {
-            Url url = new Url(serverUrl,LocalDateTime.now());
+            Url url = new Url(serverUrl, LocalDateTime.now());
             UrlsRepository.save(url);
-            //NullPointerException:"hexlet.code.model.Url.getId()" is null
 
-            client.post(NamedRoutes.check(url.getId().toString()));
+            client.post("/urls/" + url.getId() + "/checks");
+
             List<UrlCheck> checkUrl = UrlCheckRepository.find(url.getId());
+
             String title = checkUrl.getFirst().getTitle();
             String h1 = checkUrl.getFirst().getH1();
             String description = checkUrl.getFirst().getDescription();

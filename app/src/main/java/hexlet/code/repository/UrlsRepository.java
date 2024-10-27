@@ -19,7 +19,20 @@ public class UrlsRepository extends BaseRepository {
              var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, url.getName());
             preparedStatement.setTimestamp(2, Timestamp.valueOf(url.getCreatedAt()));
-            preparedStatement.executeUpdate();
+
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating URL failed, no rows affected.");
+            }
+
+            try (var generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    url.setId(generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("Creating URL failed, no ID obtained.");
+                }
+            }
         }
     }
 
