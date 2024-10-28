@@ -6,7 +6,6 @@ import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlsRepository;
-import hexlet.code.utils.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import okhttp3.mockwebserver.MockResponse;
@@ -80,7 +79,7 @@ public class AppTest {
 
     @Test
     public void indexTest() {
-        JavalinTest.test(app, (server, client) -> {
+        JavalinTest.test(app, (ignored, client) -> {
             var response = client.get("/");
             assertThat(response.code()).isEqualTo(200);
         });
@@ -88,7 +87,7 @@ public class AppTest {
 
     @Test
     public void urlListTest() {
-        JavalinTest.test(app, (server, client) -> {
+        JavalinTest.test(app, (ignored, client) -> {
             var response = client.get("/urls");
             assertThat(response.code()).isEqualTo(200);
         });
@@ -96,7 +95,7 @@ public class AppTest {
 
     @Test
     public void notFoundUrlTest() throws SQLException {
-        JavalinTest.test(app, (server, client) -> {
+        JavalinTest.test(app, (ignored, client) -> {
             var response = client.get("/urls/100");
             assertThat(response.code()).isEqualTo(404);
         });
@@ -106,7 +105,7 @@ public class AppTest {
     public void searchUrlTest() throws SQLException {
         var url = new Url("http://localhost:7070", LocalDateTime.now());
         UrlsRepository.save(url);
-        JavalinTest.test(app, (server, client) -> {
+        JavalinTest.test(app, (ignored, client) -> {
             var response = client.get("/urls/");
             assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("http://localhost:7070");
@@ -116,7 +115,7 @@ public class AppTest {
     @Test
     public void checkTest() {
         String serverUrl = server.url("/").toString();
-        JavalinTest.test(app, (server, client) -> {
+        JavalinTest.test(app, (ignored, client) -> {
             Url url = new Url(serverUrl, LocalDateTime.now());
             UrlsRepository.save(url);
 
