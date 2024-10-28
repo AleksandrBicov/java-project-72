@@ -124,9 +124,9 @@ public class AppTest {
 
             List<UrlCheck> checkUrl = UrlCheckRepository.find(url.getId());
 
-            String title = checkUrl.getFirst().getTitle();
-            String h1 = checkUrl.getFirst().getH1();
-            String description = checkUrl.getFirst().getDescription();
+            String title = checkUrl.get(0).getTitle();
+            String h1 = checkUrl.get(0).getH1();
+            String description = checkUrl.get(0).getDescription();
             assertThat(title).isEqualTo("hexlet");
             assertThat(h1).isEqualTo("Hello World");
             assertThat(description).isEqualTo("hexlet web server");

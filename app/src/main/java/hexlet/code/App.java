@@ -56,14 +56,14 @@ public class App {
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
-        app.get(NamedRoutes.rootPath(),Controller::index);
+        app.get(NamedRoutes.rootPath(), Controller::index);
 
-        app.post(NamedRoutes.urlsPost(),Controller::addUrl);
-        app.get(NamedRoutes.urlsGet(),Controller::urlList);
+        app.post(NamedRoutes.urlsPost(), Controller::addUrl);
+        app.get(NamedRoutes.urlsGet(), Controller::urlList);
 
         app.get(NamedRoutes.urlsPath("{id}"), Controller::show);
 
-        app.post(NamedRoutes.check("{id}"),Controller::check);
+        app.post(NamedRoutes.check("{id}"), Controller::check);
 
         return app;
     }

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BuildUrlPage extends BasePage{
+public class BuildUrlPage extends BasePage {
 
     private String name;
     private LocalDateTime createdAt;

@@ -1,6 +1,5 @@
 package hexlet.code.repository;
 
-import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +15,8 @@ import java.util.Map;
 public class UrlCheckRepository extends BaseRepository {
 
     public static void saveCheck(@NotNull UrlCheck checkUrl) throws SQLException {
-        String sqlCheck = "INSERT INTO url_checks (urlId, statusCode, h1, title, description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlCheck =
+            "INSERT INTO url_checks (urlId, statusCode, h1, title, description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sqlCheck, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, checkUrl.getUrlId());
@@ -43,7 +43,7 @@ public class UrlCheckRepository extends BaseRepository {
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                var urlCheck = new UrlCheck(urlId,statusCode,title,h1,description,createdAt);
+                var urlCheck = new UrlCheck(urlId, statusCode, title, h1, description, createdAt);
                 urlCheck.setId(checkId);
                 checks.add(urlCheck);
             }
@@ -51,8 +51,8 @@ public class UrlCheckRepository extends BaseRepository {
         }
     }
 
-    public static Map<Long,UrlCheck> findLatestChecks() throws SQLException {
-        var map = new HashMap<Long,UrlCheck>();
+    public static Map<Long, UrlCheck> findLatestChecks() throws SQLException {
+        var map = new HashMap<Long, UrlCheck>();
         var sql = "SELECT * FROM url_checks";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
@@ -65,7 +65,7 @@ public class UrlCheckRepository extends BaseRepository {
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                var urlCheck = new UrlCheck(urlId,statusCode,title,h1,description,createdAt);
+                var urlCheck = new UrlCheck(urlId, statusCode, title, h1, description, createdAt);
                 urlCheck.setId(checkId);
                 map.put(urlId, urlCheck);
             }

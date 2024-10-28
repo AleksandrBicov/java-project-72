@@ -40,7 +40,7 @@ public class Controller {
     public static void index(Context ctx) {
         BuildUrlPage page = new BuildUrlPage();
         page.setFlash(ctx.consumeSessionAttribute("flash"));
-        ctx.render("index.jte",Collections.singletonMap("page", page));
+        ctx.render("index.jte", Collections.singletonMap("page", page));
     }
 
     public static void addUrl(Context ctx) throws SQLException {
@@ -87,7 +87,7 @@ public class Controller {
 
         List<UrlCheck> checks = UrlCheckRepository.find(id);
         Collections.reverse(checks);
-        var page = new UrlPage(url,checks);
+        var page = new UrlPage(url, checks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         ctx.render("urls/show.jte", model("page", page));
     }
@@ -121,9 +121,9 @@ public class Controller {
                 if (metaDescriptionElement != null) {
                     description = metaDescriptionElement.attr("content");
                 }
-            var checkUrl = new UrlCheck(urlId,status,title,h1,description,createdAt);
+                var checkUrl = new UrlCheck(urlId, status, title, h1, description, createdAt);
                 UrlCheckRepository.saveCheck(checkUrl);
-            ctx.sessionAttribute("flash", "Страница успешно проверена");
+                ctx.sessionAttribute("flash", "Страница успешно проверена");
             }
         } catch (UnirestException e) {
             log.error(String.valueOf(e));
