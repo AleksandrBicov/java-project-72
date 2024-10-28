@@ -20,9 +20,6 @@ dependencies {
     implementation("gg.jte:jte:3.1.12")
     implementation("io.javalin:javalin-bundle:6.1.3")
 
-
-    implementation("org.slf4j:slf4j-simple:2.0.7")
-
     implementation("com.h2database:h2:2.2.220")
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation ("org.postgresql:postgresql:42.2.23")
