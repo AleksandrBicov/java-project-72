@@ -1,4 +1,4 @@
-package hexlet.code.Controller;
+package hexlet.code.controller;
 
 import hexlet.code.dto.url.BuildUrlPage;
 import hexlet.code.dto.url.UrlPage;
@@ -19,6 +19,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
@@ -43,33 +44,34 @@ public class Controller {
         ctx.render("index.jte", Collections.singletonMap("page", page));
     }
 
-    public static void addUrl(Context ctx) throws SQLException {
+    public static void addUrl(Context ctx) throws SQLException, MalformedURLException {
         String inputUrl = Objects.requireNonNull(ctx.formParam("url")).trim();
 
-
+        URI parsedUrl;
         try {
-            var uri = new URI(inputUrl);
-            URL url = uri.toURL();
-
-            String name = createUrlString(url);
-
-            if (UrlsRepository.find(name)) {
-                ctx.sessionAttribute("flash", "Страница уже существует");
-                ctx.redirect("/urls");
-                return;
-            }
-
-            LocalDateTime createdAt = LocalDateTime.now();
-
-            Url nameUrl = new Url(name, createdAt);
-            UrlsRepository.save(nameUrl);
-            ctx.sessionAttribute("flash", "URL успешно добавлен!");
-            ctx.redirect("/urls");
+            parsedUrl = new URI(inputUrl);
         } catch (Exception e)  {
             log.error(String.valueOf(e));
             ctx.sessionAttribute("flash", "Некорректный URL");
             ctx.redirect("/");
+            return;
         }
+        URL url = parsedUrl.toURL();
+
+        String name = createUrlString(url);
+
+        if (UrlsRepository.find(name)) {
+            ctx.sessionAttribute("flash", "Страница уже существует");
+            ctx.redirect("/urls");
+            return;
+        }
+
+        LocalDateTime createdAt = LocalDateTime.now();
+
+        Url nameUrl = new Url(name, createdAt);
+        UrlsRepository.save(nameUrl);
+        ctx.sessionAttribute("flash", "URL успешно добавлен!");
+        ctx.redirect("/urls");
     }
 
     public static void urlList(Context ctx) throws SQLException {

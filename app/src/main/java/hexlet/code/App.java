@@ -3,7 +3,7 @@ package hexlet.code;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import hexlet.code.Controller.Controller;
+import hexlet.code.controller.Controller;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.utils.NamedRoutes;
 import static hexlet.code.config.TemplateEngineConfig.createTemplateEngine;

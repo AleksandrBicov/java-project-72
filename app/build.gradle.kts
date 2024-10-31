@@ -1,5 +1,4 @@
 plugins {
-    id("java")
     id("application")
     checkstyle
     jacoco
@@ -36,6 +35,11 @@ dependencies {
     testImplementation ("org.mockito:mockito-inline:4.0.0")
 
 }
+tasks.jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
 
 tasks.test {
     useJUnitPlatform()
@@ -56,8 +60,9 @@ tasks.withType<Checkstyle> {
     reports {
         html.required.set(true)
     }
-
-checkstyle {
-    toolVersion = "10.3.3"
-    configFile = file("${project.rootDir}/app/config/checkstyle/checkstyle.xml")
-}}
+//
+//checkstyle {
+//    toolVersion = "10.3.3"
+//    configFile = file("${project.rootDir}/app/config/checkstyle/checkstyle.xml")
+//}
+}
