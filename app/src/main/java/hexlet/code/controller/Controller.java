@@ -72,9 +72,7 @@ public class Controller {
             return;
         }
 
-        LocalDateTime createdAt = LocalDateTime.now();
-
-        Url nameUrl = new Url(name, createdAt);
+        Url nameUrl = new Url(name);
         UrlsRepository.save(nameUrl);
         ctx.sessionAttribute("flash", "URL успешно добавлен!");
         ctx.redirect("/urls");

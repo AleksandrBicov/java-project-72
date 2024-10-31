@@ -21,11 +21,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,8 +63,8 @@ public class AppTest {
     public final void beforeEach() throws IOException, SQLException {
         try (Connection connection = DriverManager.getConnection("jdbc:h2:mem:hexlet");
              Statement statement = connection.createStatement()) {
-            statement.execute("DROP TABLE IF EXISTS url_checks");
-            statement.execute("DROP TABLE IF EXISTS urls");
+            String sql = new String(Files.readAllBytes(Paths.get("src/test/resources/init.sql")));
+            statement.execute(sql);
         }
         app = App.getApp();
     }
@@ -103,7 +104,7 @@ public class AppTest {
 
     @Test
     public void searchUrlTest() throws SQLException {
-        var url = new Url("http://localhost:7070", LocalDateTime.now());
+        var url = new Url("http://localhost:7070");
         UrlsRepository.save(url);
         JavalinTest.test(app, (ignored, client) -> {
             var response = client.get("/urls/");
@@ -116,7 +117,7 @@ public class AppTest {
     public void checkTest() {
         String serverUrl = server.url("/").toString();
         JavalinTest.test(app, (ignored, client) -> {
-            Url url = new Url(serverUrl, LocalDateTime.now());
+            Url url = new Url(serverUrl);
             UrlsRepository.save(url);
 
             client.post("/urls/" + url.getId() + "/checks");

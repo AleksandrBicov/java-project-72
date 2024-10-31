@@ -18,7 +18,8 @@ public class UrlsRepository extends BaseRepository {
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, url.getName());
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(url.getCreatedAt()));
+            var createdAt = LocalDateTime.now();
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(createdAt));
 
             int affectedRows = preparedStatement.executeUpdate();
 
@@ -46,8 +47,9 @@ public class UrlsRepository extends BaseRepository {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                var url = new Url(name, createdAt);
+                var url = new Url(name);
                 url.setId(id);
+                url.setCreatedAt(createdAt);
                 result.add(url);
             }
             return result;
@@ -73,8 +75,9 @@ public class UrlsRepository extends BaseRepository {
             if (resultSet.next()) {
                 var name = resultSet.getString("name");
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                var url = new Url(name, createdAt);
+                var url = new Url(name);
                 url.setId(id);
+                url.setCreatedAt(createdAt);
                 return Optional.of(url);
             }
             return Optional.empty();

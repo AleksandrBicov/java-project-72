@@ -24,7 +24,8 @@ public class UrlCheckRepository extends BaseRepository {
             preparedStatement.setString(3, checkUrl.getH1());
             preparedStatement.setString(4, checkUrl.getTitle());
             preparedStatement.setString(5, checkUrl.getDescription());
-            preparedStatement.setTimestamp(6, Timestamp.valueOf(checkUrl.getCreatedAt()));
+            var createdAt = LocalDateTime.now();
+            preparedStatement.setTimestamp(6, Timestamp.valueOf(createdAt));
             preparedStatement.executeUpdate();
         }
     }
