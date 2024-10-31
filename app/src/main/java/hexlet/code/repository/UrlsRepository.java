@@ -54,7 +54,7 @@ public class UrlsRepository extends BaseRepository {
         }
     }
 
-    public static Boolean find(String name) throws SQLException {
+    public static boolean find(String name) throws SQLException {
         var sql = "SELECT * FROM urls WHERE name = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {

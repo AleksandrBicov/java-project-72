@@ -56,9 +56,15 @@ public class Controller {
             ctx.redirect("/");
             return;
         }
-        URL url = parsedUrl.toURL();
 
-        String name = createUrlString(url);
+        String name = String
+                .format(
+                        "%s://%s%s",
+                        parsedUrl.getScheme(),
+                        parsedUrl.getHost(),
+                        parsedUrl.getPort() == -1 ? "" : ":" + parsedUrl.getPort()
+                )
+                .toLowerCase();
 
         if (UrlsRepository.find(name)) {
             ctx.sessionAttribute("flash", "Страница уже существует");
