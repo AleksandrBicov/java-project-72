@@ -16,7 +16,7 @@ public class UrlCheckRepository extends BaseRepository {
 
     public static void saveCheck(@NotNull UrlCheck checkUrl) throws SQLException {
         String sqlCheck =
-            "INSERT INTO url_checks (urlId, statusCode, h1, title, description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO url_checks (url_id, statusCode, h1, title, description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sqlCheck, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, checkUrl.getUrlId());
@@ -31,7 +31,7 @@ public class UrlCheckRepository extends BaseRepository {
     }
 
     public static List<UrlCheck> find(Long urlId) throws SQLException {
-        var sql = "SELECT * FROM url_checks WHERE urlId = ? ORDER BY created_at DESC";
+        var sql = "SELECT * FROM url_checks WHERE url_id = ? ORDER BY created_at DESC";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, urlId);
@@ -60,7 +60,7 @@ public class UrlCheckRepository extends BaseRepository {
              var stmt = conn.prepareStatement(sql)) {
             var resultSet = stmt.executeQuery();
             while (resultSet.next()) {
-                long urlId = resultSet.getLong("urlId");
+                long urlId = resultSet.getLong("url_id");
                 long checkId = resultSet.getLong("id");
                 int statusCode = resultSet.getInt("statusCode");
                 String h1 = resultSet.getString("h1");

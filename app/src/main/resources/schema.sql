@@ -6,11 +6,11 @@ CREATE TABLE IF NOT EXISTS urls (
 
 CREATE TABLE IF NOT EXISTS url_checks (
     id BIGSERIAL PRIMARY KEY,
-    urlId BIGINT NOT NULL,
+    url_id BIGINT NOT NULL,
     statusCode INT,
     h1 TEXT,
     title TEXT,
     description TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (urlId) REFERENCES urls(id) ON DELETE CASCADE
+    FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE
 );
