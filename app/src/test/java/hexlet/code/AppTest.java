@@ -104,12 +104,12 @@ public class AppTest {
 
     @Test
     public void searchUrlTest() throws SQLException {
-        var url = new Url("http://localhost:7070");
+        var url = new Url("https://www.example.com");
         UrlsRepository.save(url);
         JavalinTest.test(app, (ignored, client) -> {
             var response = client.get("/urls/");
             assertThat(response.code()).isEqualTo(200);
-            assertThat(response.body().string()).contains("http://localhost:7070");
+            assertThat(response.body().string()).contains("https://www.example.com");
         });
     }
 

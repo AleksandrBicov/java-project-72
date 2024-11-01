@@ -90,7 +90,6 @@ public class UrlController {
                 .orElseThrow(() -> new NotFoundResponse("Url not found"));
 
         List<UrlCheck> checks = UrlCheckRepository.find(id);
-        Collections.reverse(checks);
         var page = new UrlPage(url, checks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         ctx.render("urls/show.jte", model("page", page));
@@ -131,16 +130,5 @@ public class UrlController {
             log.error(String.valueOf(e));
         }
         show(ctx);
-    }
-
-    public static String createUrlString(URL url) {
-        String protocol = url.getProtocol();
-        String host = url.getHost();
-        int port = url.getPort();
-        String name = protocol + "://" + host;
-        if (port != -1) {
-            name += ":" + port;
-        }
-        return name;
     }
 }
