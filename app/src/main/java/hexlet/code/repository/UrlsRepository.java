@@ -56,13 +56,13 @@ public class UrlsRepository extends BaseRepository {
         }
     }
 
-    public static boolean find(String name) throws SQLException {
+    public static Optional<Boolean> find(String name) throws SQLException {
         var sql = "SELECT * FROM urls WHERE name = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, name);
             var resultSet = stmt.executeQuery();
-            return resultSet.next();
+            return Optional.of(resultSet.next());
         }
     }
 

@@ -55,14 +55,3 @@ tasks.register<JavaExec>("runMain") {
     classpath = sourceSets["main"].runtimeClasspath
     mainClass.set("hexlet.code.App")
 }
-
-tasks.withType<Checkstyle> {
-    reports {
-        html.required.set(true)
-    }
-//
-//checkstyle {
-//    toolVersion = "10.3.3"
-//    configFile = file("${project.rootDir}/app/config/checkstyle/checkstyle.xml")
-//}
-}

@@ -66,7 +66,7 @@ public class Controller {
                 )
                 .toLowerCase();
 
-        if (UrlsRepository.find(name)) {
+        if (UrlsRepository.find(name).orElse(false)) {
             ctx.sessionAttribute("flash", "Страница уже существует");
             ctx.redirect("/urls");
             return;
