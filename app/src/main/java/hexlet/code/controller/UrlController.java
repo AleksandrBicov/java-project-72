@@ -26,8 +26,6 @@ import java.net.URL;
 
 import java.sql.SQLException;
 
-import java.time.LocalDateTime;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +35,7 @@ import static io.javalin.rendering.template.TemplateUtil.model;
 
 
 @Slf4j
-public class Controller {
+public class UrlController {
     public static void index(Context ctx) {
         BuildUrlPage page = new BuildUrlPage();
         page.setFlash(ctx.consumeSessionAttribute("flash"));
@@ -108,28 +106,27 @@ public class Controller {
         try {
             HttpResponse<String> response = Unirest.get(check).asString();
 
-            if (response.getStatus() == 200) {
-                String html = response.getBody();
-                Document doc = Jsoup.parse(html);
+            String html = response.getBody();
+            Document doc = Jsoup.parse(html);
 
-                int status = response.getStatus();
-                String title = doc.title();
-                String h1 = null;
-                String description = null;
+            int status = response.getStatus();
+            String title = doc.title();
+            String h1 = null;
+            String description = null;
 
-                Element h1Element = doc.selectFirst("h1");
-                if (h1Element != null) {
-                    h1 = h1Element.text();
-                }
-
-                Element metaDescriptionElement = doc.selectFirst("meta[name=description]");
-                if (metaDescriptionElement != null) {
-                    description = metaDescriptionElement.attr("content");
-                }
-                var checkUrl = new UrlCheck(urlId, status, title, h1, description);
-                UrlCheckRepository.saveCheck(checkUrl);
-                ctx.sessionAttribute("flash", "Страница успешно проверена");
+            Element h1Element = doc.selectFirst("h1");
+            if (h1Element != null) {
+                h1 = h1Element.text();
             }
+
+            Element metaDescriptionElement = doc.selectFirst("meta[name=description]");
+            if (metaDescriptionElement != null) {
+                description = metaDescriptionElement.attr("content");
+            }
+            var checkUrl = new UrlCheck(urlId, status, title, h1, description);
+            UrlCheckRepository.saveCheck(checkUrl);
+            ctx.sessionAttribute("flash", "Страница успешно проверена");
+
         } catch (UnirestException e) {
             log.error(String.valueOf(e));
         }
