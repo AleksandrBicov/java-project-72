@@ -116,7 +116,6 @@ public class Controller {
                 String title = doc.title();
                 String h1 = null;
                 String description = null;
-                LocalDateTime createdAt = LocalDateTime.now();
 
                 Element h1Element = doc.selectFirst("h1");
                 if (h1Element != null) {
@@ -127,7 +126,7 @@ public class Controller {
                 if (metaDescriptionElement != null) {
                     description = metaDescriptionElement.attr("content");
                 }
-                var checkUrl = new UrlCheck(urlId, status, title, h1, description, createdAt);
+                var checkUrl = new UrlCheck(urlId, status, title, h1, description);
                 UrlCheckRepository.saveCheck(checkUrl);
                 ctx.sessionAttribute("flash", "Страница успешно проверена");
             }

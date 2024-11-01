@@ -44,7 +44,8 @@ public class UrlCheckRepository extends BaseRepository {
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                var urlCheck = new UrlCheck(urlId, statusCode, title, h1, description, createdAt);
+                var urlCheck = new UrlCheck(urlId, statusCode, title, h1, description);
+                urlCheck.setCreatedAt(createdAt);
                 urlCheck.setId(checkId);
                 checks.add(urlCheck);
             }
@@ -66,7 +67,8 @@ public class UrlCheckRepository extends BaseRepository {
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                var urlCheck = new UrlCheck(urlId, statusCode, title, h1, description, createdAt);
+                var urlCheck = new UrlCheck(urlId, statusCode, title, h1, description);
+                urlCheck.setCreatedAt(createdAt);
                 urlCheck.setId(checkId);
                 map.put(urlId, urlCheck);
             }
