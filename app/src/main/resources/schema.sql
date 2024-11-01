@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS urls (
 CREATE TABLE IF NOT EXISTS url_checks (
     id BIGSERIAL PRIMARY KEY,
     url_id BIGINT NOT NULL,
-    statusCode INT,
+    status_code INT,
     h1 TEXT,
     title TEXT,
     description TEXT,

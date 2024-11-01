@@ -16,7 +16,7 @@ public class UrlCheckRepository extends BaseRepository {
 
     public static void saveCheck(@NotNull UrlCheck checkUrl) throws SQLException {
         String sqlCheck =
-            "INSERT INTO url_checks (url_id, statusCode, h1, title, description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sqlCheck, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, checkUrl.getUrlId());
@@ -39,7 +39,7 @@ public class UrlCheckRepository extends BaseRepository {
             List<UrlCheck> checks = new ArrayList<>();
             while (resultSet.next()) {
                 long checkId = resultSet.getLong("id");
-                int statusCode = resultSet.getInt("statusCode");
+                int statusCode = resultSet.getInt("status_code");
                 String h1 = resultSet.getString("h1");
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
@@ -62,7 +62,7 @@ public class UrlCheckRepository extends BaseRepository {
             while (resultSet.next()) {
                 long urlId = resultSet.getLong("url_id");
                 long checkId = resultSet.getLong("id");
-                int statusCode = resultSet.getInt("statusCode");
+                int statusCode = resultSet.getInt("status_code");
                 String h1 = resultSet.getString("h1");
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
