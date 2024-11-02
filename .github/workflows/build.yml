@@ -19,14 +19,14 @@ jobs:
           gradle-version: 8.7
 
       - run: chmod +x app/gradlew
-      - run: make -C app lint
-      - run: make -C app test
+      - run: make lint
+      - run: make test
 
       - name: Generate JaCoCo report
-        run: cd app && ./gradlew jacocoTestReport
+        run: ./gradlew jacocoTestReport
 
       - name: List JaCoCo report files
-        run: ls -R app/build/reports/jacoco
+        run: app/build/reports/jacoco
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
