@@ -102,7 +102,7 @@ public class UrlController {
         String check = url.getName();
         HttpResponse<String> response;
         try {
-             response = Unirest.get(check).asString();
+            response = Unirest.get(check).asString();
         } catch (UnirestException e) {
             ctx.sessionAttribute("flash", "Некорректный адрес");
             show(ctx);
