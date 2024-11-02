@@ -18,7 +18,7 @@ jobs:
         with:
           gradle-version: 8.7
       
-      - run: chmod +x gradlew
+      - run: chmod +x app/gradlew
       - run: make lint
       - run: make test
 
