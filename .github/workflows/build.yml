@@ -24,9 +24,9 @@ jobs:
       - name: Run tests and generate report
         run:  make report
 
-      #- name: Run Code Climate Coverage Action
-        #uses: paambaati/codeclimate-action@v5.0.0
-        #env:
-          #CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        #with:
-          #coverageCommand: make report
+      - name: Run Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: make report
