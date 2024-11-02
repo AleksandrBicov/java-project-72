@@ -17,17 +17,17 @@ jobs:
       - uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.7
-      
-      - run: chmod +x app/gradlew
+      - run: gradle wrapper
+      - run: chmod +x gradlew
       #- run: cd app && ./gradlew checkstyleMain
       #- run: cd app && ./gradlew test
       
       - name: Run tests and generate report
-        run:  cd app && ./gradlew test jacocoTestReport
+        run:  ./gradlew test jacocoTestReport
 
-      - name: Run Code Climate Coverage Action
-        uses: paambaati/codeclimate-action@v5.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: make report
+      #- name: Run Code Climate Coverage Action
+        #uses: paambaati/codeclimate-action@v5.0.0
+        #env:
+          #CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        #with:
+          #coverageCommand: make report
