@@ -19,9 +19,6 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-
-
-
 @Slf4j
 public class App {
 
