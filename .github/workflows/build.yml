@@ -19,10 +19,10 @@ jobs:
           gradle-version: 8.7
       - run: chmod +x app/gradlew
       - run: make lint
-      #- run: cd app && ./gradlew test
+      - run: make test
       
       - name: Run tests and generate report
-        run:  cd app && ./gradlew test jacocoTestReport
+        run:  make report
 
       #- name: Run Code Climate Coverage Action
         #uses: paambaati/codeclimate-action@v5.0.0
