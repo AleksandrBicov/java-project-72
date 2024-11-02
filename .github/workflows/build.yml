@@ -23,7 +23,7 @@ jobs:
       #- run: cd app && ./gradlew test
       
       - name: Run tests and generate report
-        run: ./gradlew test jacocoTestReport
+        run:  cd app && ./gradlew test jacocoTestReport
 
       - name: Run Code Climate Coverage Action
         uses: paambaati/codeclimate-action@v5.0.0
