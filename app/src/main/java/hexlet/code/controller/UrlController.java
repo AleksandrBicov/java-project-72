@@ -100,34 +100,34 @@ public class UrlController {
         var url = UrlsRepository.find(urlId)
                 .orElseThrow(() -> new NotFoundResponse("Url not found"));
         String check = url.getName();
-
+        HttpResponse<String> response;
         try {
-            HttpResponse<String> response = Unirest.get(check).asString();
-
-            String html = response.getBody();
-            Document doc = Jsoup.parse(html);
-
-            int status = response.getStatus();
-            String title = doc.title();
-            String h1 = null;
-            String description = null;
-
-            Element h1Element = doc.selectFirst("h1");
-            if (h1Element != null) {
-                h1 = h1Element.text();
-            }
-
-            Element metaDescriptionElement = doc.selectFirst("meta[name=description]");
-            if (metaDescriptionElement != null) {
-                description = metaDescriptionElement.attr("content");
-            }
-            var checkUrl = new UrlCheck(urlId, status, title, h1, description);
-            UrlCheckRepository.saveCheck(checkUrl);
-            ctx.sessionAttribute("flash", "Страница успешно проверена");
-
+             response = Unirest.get(check).asString();
         } catch (UnirestException e) {
-            log.error(String.valueOf(e));
+            ctx.sessionAttribute("flash", "Некорректный адрес");
+            show(ctx);
+            return;
         }
+        String html = response.getBody();
+        Document doc = Jsoup.parse(html);
+
+        int status = response.getStatus();
+        String title = doc.title();
+        String h1 = null;
+        String description = null;
+
+        Element h1Element = doc.selectFirst("h1");
+        if (h1Element != null) {
+            h1 = h1Element.text();
+        }
+
+        Element metaDescriptionElement = doc.selectFirst("meta[name=description]");
+        if (metaDescriptionElement != null) {
+            description = metaDescriptionElement.attr("content");
+        }
+        var checkUrl = new UrlCheck(urlId, status, title, h1, description);
+        UrlCheckRepository.saveCheck(checkUrl);
+        ctx.sessionAttribute("flash", "Страница успешно проверена");
         show(ctx);
     }
 }
