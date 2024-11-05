@@ -22,7 +22,6 @@ import org.jsoup.nodes.Element;
 import java.net.MalformedURLException;
 import java.net.URI;
 
-
 import java.sql.SQLException;
 
 import java.util.Collections;
@@ -38,6 +37,7 @@ public class UrlController {
     public static void index(Context ctx) {
         BuildUrlPage page = new BuildUrlPage();
         page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flashType"));
         ctx.render("index.jte", Collections.singletonMap("page", page));
     }
 
@@ -48,8 +48,8 @@ public class UrlController {
         try {
             parsedUrl = new URI(inputUrl);
         } catch (Exception e)  {
-            log.error(String.valueOf(e));
             ctx.sessionAttribute("flash", "Некорректный URL");
+            ctx.sessionAttribute("flashType", "danger");
             ctx.redirect("/");
             return;
         }
@@ -64,7 +64,8 @@ public class UrlController {
                 .toLowerCase();
 
         if (UrlsRepository.find(name).orElse(false)) {
-            ctx.sessionAttribute("flash", "Страница уже существует");
+            ctx.sessionAttribute("flash", "URL уже существует");
+            ctx.sessionAttribute("flashType", "danger");
             ctx.redirect("/urls");
             return;
         }
@@ -72,6 +73,7 @@ public class UrlController {
         Url nameUrl = new Url(name);
         UrlsRepository.save(nameUrl);
         ctx.sessionAttribute("flash", "URL успешно добавлен!");
+        ctx.sessionAttribute("flashType", "success");
         ctx.redirect("/urls");
     }
 
@@ -80,6 +82,7 @@ public class UrlController {
         Map<Long, UrlCheck> urlChecks = UrlCheckRepository.findLatestChecks();
         var page = new UrlsPage(urls, urlChecks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flashType"));
         ctx.render("urls/index.jte", model("page", page));
     }
 
@@ -91,6 +94,7 @@ public class UrlController {
         List<UrlCheck> checks = UrlCheckRepository.find(id);
         var page = new UrlPage(url, checks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flashType"));
         ctx.render("urls/show.jte", model("page", page));
     }
 
@@ -104,12 +108,21 @@ public class UrlController {
         try {
             response = Unirest.get(check).asString();
         } catch (UnirestException e) {
-            ctx.sessionAttribute("flash", "Некорректный адрес");
+            ctx.sessionAttribute("flash", "Некорректный URL");
+            ctx.sessionAttribute("flashType", "danger");
             show(ctx);
             return;
         }
         String html = response.getBody();
-        Document doc = Jsoup.parse(html);
+        Document doc;
+        try {
+        doc = Jsoup.parse(html);
+        } catch (Exception e) {
+            ctx.sessionAttribute("flash", e.getMessage());
+            ctx.sessionAttribute("flashType", "danger");
+            show(ctx);
+            return;
+        }
 
         int status = response.getStatus();
         String title = doc.title();
@@ -127,7 +140,8 @@ public class UrlController {
         }
         var checkUrl = new UrlCheck(urlId, status, title, h1, description);
         UrlCheckRepository.saveCheck(checkUrl);
-        ctx.sessionAttribute("flash", "Страница успешно проверена");
+        ctx.sessionAttribute("flash", "URL успешно проверен");
+        ctx.sessionAttribute("flashType", "success");
         show(ctx);
     }
 }

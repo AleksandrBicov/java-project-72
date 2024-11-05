@@ -32,22 +32,13 @@
             </div>
         </nav>
         @if(page != null && page.getFlash() != null)
-        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-danger" role="alert">
+        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-${page.getFlashType()}" role="alert">
             <p class="m-0">${page.getFlash()}</p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
 
     ${content}
-
-    <footer class="footer border-top py-3 mt-5 bg-light">
-        <div class="container-xl">
-            <div class="text-center">
-                created by
-                <a href="https://github.com/AleksandrBicov/" target="_blank">AleksandrBicov</a>
-            </div>
-        </div>
-    </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
             integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"
@@ -56,4 +47,12 @@
             integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
             crossorigin="anonymous"></script>
     </body>
+    <footer class="footer border-top py-3 mt-5 bg-light" style="position: absolute;left: 0;bottom: 0;width: 100%;height: 80px;">
+        <div class="container-xl">
+            <div class="text-center">
+                created by
+                <a href="https://github.com/AleksandrBicov/" target="_blank">AleksandrBicov</a>
+            </div>
+        </div>
+    </footer>
 </html>
