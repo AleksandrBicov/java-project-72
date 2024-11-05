@@ -116,7 +116,7 @@ public class UrlController {
         String html = response.getBody();
         Document doc;
         try {
-        doc = Jsoup.parse(html);
+            doc = Jsoup.parse(html);
         } catch (Exception e) {
             ctx.sessionAttribute("flash", e.getMessage());
             ctx.sessionAttribute("flashType", "danger");
