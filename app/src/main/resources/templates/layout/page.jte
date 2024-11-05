@@ -47,7 +47,7 @@
             integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
             crossorigin="anonymous"></script>
     </body>
-    <footer class="footer border-top py-3 mt-5 bg-light" style="position: absolute;left: 0;bottom: 0;width: 100%;height: 80px;">
+    <footer class="footer border-top py-3 mt-5 bg-light" style="position: absolute;left: 0;bottom: 0;width: 100%;">
         <div class="container-xl">
             <div class="text-center">
                 created by
