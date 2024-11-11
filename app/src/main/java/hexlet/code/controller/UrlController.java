@@ -89,7 +89,7 @@ public class UrlController {
     public static void show(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var url = UrlsRepository.find(id)
-                .orElseThrow(() -> new NotFoundResponse("Url not found"));
+                .orElseThrow(() -> new NotFoundResponse("Url № " + id + " not found"));
 
         List<UrlCheck> checks = UrlCheckRepository.find(id);
         var page = new UrlPage(url, checks);
@@ -102,46 +102,43 @@ public class UrlController {
 
         var urlId = ctx.pathParamAsClass("id", Long.class).get();
         var url = UrlsRepository.find(urlId)
-                .orElseThrow(() -> new NotFoundResponse("Url not found"));
+                .orElseThrow(() -> new NotFoundResponse("Url № " + urlId + " not found"));
         String check = url.getName();
-        HttpResponse<String> response;
+
         try {
-            response = Unirest.get(check).asString();
+            HttpResponse<String> response = Unirest.get(check).asString();
+
+            String html = response.getBody();
+            Document doc = Jsoup.parse(html);
+
+
+            int status = response.getStatus();
+            String title = doc.title();
+            String h1 = null;
+            String description = null;
+
+            Element h1Element = doc.selectFirst("h1");
+            if (h1Element != null) {
+                h1 = h1Element.text();
+            }
+
+            Element metaDescriptionElement = doc.selectFirst("meta[name=description]");
+            if (metaDescriptionElement != null) {
+                description = metaDescriptionElement.attr("content");
+            }
+            var checkUrl = new UrlCheck(urlId, status, title, h1, description);
+            UrlCheckRepository.saveCheck(checkUrl);
+            ctx.sessionAttribute("flash", "URL успешно проверен");
+            ctx.sessionAttribute("flashType", "success");
+            show(ctx);
         } catch (UnirestException e) {
             ctx.sessionAttribute("flash", "Некорректный URL");
             ctx.sessionAttribute("flashType", "danger");
             show(ctx);
-            return;
-        }
-        String html = response.getBody();
-        Document doc;
-        try {
-            doc = Jsoup.parse(html);
         } catch (Exception e) {
             ctx.sessionAttribute("flash", e.getMessage());
             ctx.sessionAttribute("flashType", "danger");
             show(ctx);
-            return;
         }
-
-        int status = response.getStatus();
-        String title = doc.title();
-        String h1 = null;
-        String description = null;
-
-        Element h1Element = doc.selectFirst("h1");
-        if (h1Element != null) {
-            h1 = h1Element.text();
-        }
-
-        Element metaDescriptionElement = doc.selectFirst("meta[name=description]");
-        if (metaDescriptionElement != null) {
-            description = metaDescriptionElement.attr("content");
-        }
-        var checkUrl = new UrlCheck(urlId, status, title, h1, description);
-        UrlCheckRepository.saveCheck(checkUrl);
-        ctx.sessionAttribute("flash", "URL успешно проверен");
-        ctx.sessionAttribute("flashType", "success");
-        show(ctx);
     }
 }
