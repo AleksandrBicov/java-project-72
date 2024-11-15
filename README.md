@@ -8,9 +8,6 @@
 
 This is a demo application designed for checking the SEO suitability of a website.
 
-## Deploy
-
-Deploy on [Render.com](https://java-project-72-qdps.onrender.com/)
 
 ## Setup
 
